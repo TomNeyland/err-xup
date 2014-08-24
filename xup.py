@@ -48,7 +48,7 @@ class Xup(BotPlugin):
     @botcmd(split_args_with=None)
     def xup_remove(self, mess, args):
         """Remove yourself from the ready list"""
-        user = str(mess.getFrom().getNode())
+        user = get_sender_username(mess)
 
         del self.shelf.users[user]
 
