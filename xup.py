@@ -1,5 +1,5 @@
 from errbot import BotPlugin, botcmd
-from errbot.builtins.webserver import webhook
+from errbot.utils import get_sender_username
 from datetime import datetime
 import ago
 
@@ -18,8 +18,8 @@ class Xup(BotPlugin):
     def xup(self, mess, args):
         """Add yourself to the ready list, you can include an optional message."""
 
-        user = str(mess.getFrom().getNode())
-        xup_args = {'user': user,'args': args, 'message': mess.getBody(),'time': datetime.utcnow()}
+        user = get_sender_username(mess)
+        xup_args = {'user': user, 'args': args, 'message': mess.getBody(), 'time': datetime.utcnow()}
 
         self.shelf.users[user] = xup_args
 
@@ -36,7 +36,7 @@ class Xup(BotPlugin):
 
         for member in members:
             member['message'] = ",".join(member['args'])
-            member['time_ago'] = ago.human(now - member['time'])
+            member['time_ago'] = ago.human(now - member['time'], 1)
 
         return {'members': members}
 
