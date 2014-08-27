@@ -36,7 +36,7 @@ class Xup(BotPlugin):
 
         for member in members:
             if ((now - member['time']).seconds//3600) < 2:
-                member['message'] = " ".join(member['args']) + '\n'
+                member['message'] = " ".join(member['args'])
                 member['time_ago'] = ago.human(now - member['time'], 1)
 
         return {'members': members}
