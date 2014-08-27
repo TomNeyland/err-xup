@@ -35,7 +35,7 @@ class Xup(BotPlugin):
         members = sorted(members, key=lambda member: member['time'])
 
         for member in members:
-            if (now - member['time']).hours < 2:
+            if ((now - member['time']).seconds//3600) < 2:
                 member['message'] = " ".join(member['args']) + '\n'
                 member['time_ago'] = ago.human(now - member['time'], 1)
 
