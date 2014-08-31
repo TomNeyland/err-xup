@@ -12,7 +12,7 @@ class Xup(BotPlugin):
         super(Xup, self).activate()
 
         if not hasattr(self.shelf, 'users'):
-            self.shelf.users = {}
+            self['users'] = {}
 
     @botcmd(split_args_with=None)
     def xup(self, mess, args):
@@ -21,7 +21,7 @@ class Xup(BotPlugin):
         user = get_sender_username(mess)
         xup_args = {'user': user, 'args': args, 'message': mess.getBody(), 'time': datetime.utcnow()}
 
-        self.shelf.users[user] = xup_args
+        self['users'][user] = xup_args
 
         return "Done."
 
@@ -30,7 +30,7 @@ class Xup(BotPlugin):
         """Show everyone who is on the ready list."""
         now = datetime.utcnow()
 
-        members = self.shelf.users.values()
+        members = self['users'].values()
 
         members = sorted(members, key=lambda member: member['time'])
 
@@ -44,13 +44,13 @@ class Xup(BotPlugin):
     @botcmd(split_args_with=None)
     def xup_ping(self, mess, args):
         """Ping everyone who has xed-up"""
-        return " ".join(sorted(self.shelf.users.keys()))
+        return " ".join(sorted(self['users'].keys()))
 
     @botcmd(split_args_with=None)
     def xup_remove(self, mess, args):
         """Remove yourself from the ready list"""
         user = get_sender_username(mess)
 
-        del self.shelf.users[user]
+        del self['users'][user]
 
         return "Done."
